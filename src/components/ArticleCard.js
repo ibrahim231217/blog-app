@@ -16,10 +16,10 @@ const ArticleCard = ({ article }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2 flex flex-col h-full">
+    <div className="bg-gray-100  rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2 flex flex-col h-full">
       {/* Cover Image */}
       {article.cover_image && (
-        <div className="h-48 w-full overflow-hidden">
+        <div className="h-48 w-full  overflow-hidden">
           <img
             src={article.cover_image}
             alt={article.title}

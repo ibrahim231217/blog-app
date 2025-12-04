@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [savedArticles, setSavedArticles] = useState([]);
+  const [readArticles, setReadArticles] = useState([]);
 
   const fetchArticles = async () => {
     try {
@@ -30,9 +31,16 @@ const Dashboard = () => {
     setSavedArticles(JSON.parse(saved));
   };
 
+  const loadReadArticles = () => {
+    const read =
+      localStorage.getItem(`readArticles_${currentUser?.uid}`) || "[]";
+    setReadArticles(JSON.parse(read));
+  };
+
   useEffect(() => {
     fetchArticles();
     loadSavedArticles();
+    loadReadArticles();
   }, [currentUser?.uid]);
 
   const toggleSaveArticle = (articleId) => {
@@ -55,21 +63,21 @@ const Dashboard = () => {
     <div className="min-h-screen bg-[#F9F4EC]">
       <div className="container mx-auto px-4 py-8">
         {/* Profile Section */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+        <div className="bg-gray-100 rounded-xl shadow-lg p-8 mb-8">
           <div className="flex items-center space-x-6">
             <img
               src={currentUser?.photoURL || "https://via.placeholder.com/100"}
               alt="Profile"
               className="w-24 h-24 rounded-full border-4 border-gray-200"
             />
-            <div className="flex-1">
+            <div className="flex-1 ">
               <h1 className="text-3xl font-bold text-blue-950 mb-2">
                 Welcome back, {currentUser?.displayName || "Developer"}
               </h1>
               <p className="text-gray-600 mb-3">{currentUser?.email}</p>
               <div className="flex items-center space-x-4">
                 <span className="bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm font-semibold">
-                  ✓ Verified
+                  Verified
                 </span>
                 <span className="text-gray-500 text-sm">
                   Member since{" "}
@@ -83,28 +91,22 @@ const Dashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 ">
           {[
             {
               title: "Saved Articles",
               value: savedArticles.length,
             },
-            {
-              title: "Reading Time",
-              value: "24h",
-            },
+
             {
               title: "Articles Read",
-              value: "42",
-            },
-            {
-              title: "Streak Days",
-              value: "7",
+              value: readArticles.length,
             },
           ].map((card, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-xl p-6 shadow-lg h-36 flex items-center justify-between"
+              className="bg-transparent  rounded-xl p-4 shadow-lg h-20 flex items-center text-center justify-center"
             >
               <div>
                 <p className="text-sm text-gray-500 mb-1">{card.title}</p>
@@ -115,40 +117,8 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* Quick Actions */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Link
-              to="/"
-              className="flex flex-col items-center p-4 border-2 border-gray-200 rounded-lg hover:bg-[#EFE8DC] transition"
-            >
-              <span className="text-sm font-semibold text-gray-700">
-                Browse Articles
-              </span>
-            </Link>
-            <button className="flex flex-col items-center p-4 border-2 border-gray-200 rounded-lg hover:bg-[#EFE8DC] transition">
-              <span className="text-sm font-semibold text-gray-700">
-                Favorites
-              </span>
-            </button>
-            <button className="flex flex-col items-center p-4 border-2 border-gray-200 rounded-lg hover:bg-[#EFE8DC] transition">
-              <span className="text-sm font-semibold text-gray-700">
-                Write Article
-              </span>
-            </button>
-            <button className="flex flex-col items-center p-4 border-2 border-gray-200 rounded-lg hover:bg-[#EFE8DC] transition">
-              <span className="text-sm font-semibold text-gray-700">
-                Settings
-              </span>
-            </button>
-          </div>
-        </div>
-
         {/* Recommended Articles */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-gray-100 rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
             Recommended for You
           </h2>
@@ -156,7 +126,7 @@ const Dashboard = () => {
             {articles.map((article) => (
               <div
                 key={article.id}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition flex flex-col h-full"
+                className="border border-gray-700 rounded-lg p-4 hover:shadow-lg transition flex flex-col h-full"
               >
                 {article.cover_image && (
                   <div className="h-32 w-full overflow-hidden rounded-lg mb-3">

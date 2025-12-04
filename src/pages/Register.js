@@ -76,8 +76,8 @@ const Register = () => {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full">
-        <div className="bg-white rounded-2xl shadow overflow-hidden">
-          <div className="bg-[#F9F4EC] px-8 py-8 text-center">
+        <div className="bg-orange-50 rounded-2xl shadow overflow-hidden">
+          <div className="bg-orange-50  px-8 py-8 text-center">
             <h2 className="text-3xl font-bold mb-2 text-blue-950">
               Create an Account
             </h2>
@@ -155,8 +155,9 @@ const Register = () => {
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300"></div>
               </div>
+              
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-gray-500">
+                <span className="px-4 bg-white text-black ">
                   Or register with
                 </span>
               </div>
@@ -187,9 +188,7 @@ const Register = () => {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                <span className="font-semibold ">
-                  Register with Google
-                </span>
+                <span className="font-semibold ">Register with Google</span>
               </button>
 
               <button

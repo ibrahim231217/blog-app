@@ -1,12 +1,14 @@
 // src/pages/ArticleDetails.js
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import Loading from "../components/Loading";
 
 const ArticleDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,9 +25,29 @@ const ArticleDetails = () => {
     }
   };
 
+  const markArticleAsRead = () => {
+    if (!currentUser?.uid) return;
+    const readArticles = JSON.parse(
+      localStorage.getItem(`readArticles_${currentUser.uid}`) || "[]"
+    );
+    if (!readArticles.includes(parseInt(id))) {
+      readArticles.push(parseInt(id));
+      localStorage.setItem(
+        `readArticles_${currentUser.uid}`,
+        JSON.stringify(readArticles)
+      );
+    }
+  };
+
   useEffect(() => {
     fetchArticleDetails();
   }, [id]);
+
+  useEffect(() => {
+    if (article && currentUser?.uid) {
+      markArticleAsRead();
+    }
+  }, [article, currentUser?.uid]);
 
   if (loading) return <Loading />;
 
@@ -159,7 +181,7 @@ const ArticleDetails = () => {
               <div className="flex items-center text-gray-600">
                 <span className="text-xl mr-2">❤️</span>
                 <span className="font-semibold">
-                  {article.public_reactions_count} reactions 
+                  {article.public_reactions_count} reactions
                 </span>
               </div>
               <div className="flex items-center text-gray-600">
